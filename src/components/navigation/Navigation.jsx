@@ -1,16 +1,24 @@
 import { NavLink } from 'react-router-dom';
+import { NavigationStyled } from './Navigation.styled';
 
-const Navigation = ({ navData }) => {
+const Navigation = ({ navRoutes }) => {
   return (
-    <nav>
+    <NavigationStyled>
       <ul>
-        {navData.map(({ id, title, path }) => (
+        {navRoutes.map(({ id, title, path }) => (
           <li key={id}>
-            <NavLink to={path}>{title}</NavLink>
+            <NavLink
+              className="nav-item"
+              activeClassName="nav-item-active"
+              to={path}
+              exact
+            >
+              {title}
+            </NavLink>
           </li>
         ))}
       </ul>
-    </nav>
+    </NavigationStyled>
   );
 };
 

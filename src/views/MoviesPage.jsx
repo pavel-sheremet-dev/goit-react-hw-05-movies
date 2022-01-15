@@ -6,7 +6,7 @@ import Section from '../components/section/Section';
 import { fetchByQuery } from '../services/apiServices';
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState(null);
+  const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -33,10 +33,10 @@ const MoviesPage = () => {
 
   return (
     <>
-      {loading && <div>LOADING...</div>}
-      {error && <div>{error.message}</div>}
       <Section titleLevel="h2" title="Поиск фильмов">
         <SearchForm getQuery={getQuery} query={query} />
+        {loading && <div>LOADING...</div>}
+        {error && <div>{error.message}</div>}
         {query && <Movies moviesData={movies} />}
       </Section>
     </>

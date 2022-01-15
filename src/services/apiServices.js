@@ -36,6 +36,30 @@ export const fetchByQuery = async (query, page = 1) => {
   return res.ok ? res.json() : Promise.reject(new Error(res.statusText));
 };
 
+export const fetchDetails = async id => {
+  const baseUrlParams = new URLSearchParams({
+    api_key: API_KEY,
+    language,
+  });
+
+  const res = await fetch(
+    `${BASE_API_URL}${END_POINTS.movieDetails}/${id}?${baseUrlParams}`,
+  );
+  return res.ok ? res.json() : Promise.reject(new Error(res.statusText));
+};
+
+export const fetchCredits = async id => {
+  const baseUrlParams = new URLSearchParams({
+    api_key: API_KEY,
+    language,
+  });
+
+  const res = await fetch(
+    `${BASE_API_URL}${END_POINTS.movieDetails}/${id}${END_POINTS.movieCredits}?${baseUrlParams}`,
+  );
+  return res.ok ? res.json() : Promise.reject(new Error(res.statusText));
+};
+
 export class Api {
   #API_KEY = 'f8153ff68108089411f00437d2c4307a';
   #BASE_API_URL = 'https://api.themoviedb.org/3';
@@ -85,7 +109,7 @@ export class Api {
     const res = await fetch(
       `${this.#BASE_API_URL}${
         this.#END_POINTS.movieDetails
-      }/${id}/?${baseUrlParams}`,
+      }/${id}?${baseUrlParams}`,
     );
     return res.ok ? res.json() : Promise.reject(new Error(res.statusText));
   };

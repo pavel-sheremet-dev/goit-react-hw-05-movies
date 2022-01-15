@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import Movies from '../components/movies/Movies';
 import Section from '../components/section/Section';
 import { fetchTrending } from '../services/apiServices';
@@ -25,9 +26,9 @@ const HomePage = () => {
 
   return (
     <>
-      {loading && <div>LOADING...</div>}
-      {error && <div>{error.message}</div>}
-      <Section titleLevel="h3" title="Популярные фильмы">
+      <Section titleLevel="h1" title="Популярные фильмы">
+        {loading && <div>LOADING...</div>}
+        {error && <div>{error.message}</div>}
         <Movies moviesData={movies} />
       </Section>
     </>

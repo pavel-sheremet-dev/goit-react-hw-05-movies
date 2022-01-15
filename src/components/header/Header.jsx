@@ -1,10 +1,10 @@
-import { navData } from '../../data/Data';
+import { navRoutes } from '../../routes/routes';
 import Navigation from '../navigation/Navigation';
 
 const Header = () => {
   return (
     <header>
-      <Navigation navData={navData} />
+      <Navigation navRoutes={navRoutes} />
     </header>
   );
 };
