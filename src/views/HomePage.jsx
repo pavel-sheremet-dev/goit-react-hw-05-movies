@@ -4,6 +4,7 @@ import { navRoutes } from '../routes/routes';
 import Movies from '../components/movies/Movies';
 import Section from '../components/section/Section';
 import { fetchTrending } from '../services/apiServices';
+import Loader from '../components/loader/Loader';
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
@@ -17,7 +18,8 @@ const HomePage = () => {
         const data = await fetchTrending();
         setMovies(data.results);
       } catch (error) {
-        setError(error);
+        setError('Ooops. Something went wrong...');
+        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -25,16 +27,16 @@ const HomePage = () => {
     fetchMovies();
   }, []);
 
+  const isNotFound = !loading && !movies.length;
+  const resolve = !!movies.length && !loading;
+
   return (
     <>
       <Section titleLevel="h1" title="Популярные фильмы">
-        {loading && <div>LOADING...</div>}
-        {error && <div>{error.message}</div>}
-        {!!movies.length ? (
-          <Movies moviesData={movies} link={navRoutes.movies.path} />
-        ) : (
-          <div>Movies not found</div>
-        )}
+        {loading && <Loader />}
+        {error && <div>{error}</div>}
+        {resolve && <Movies moviesData={movies} link={navRoutes.movies.path} />}
+        {isNotFound && <div>Movies not found</div>}
       </Section>
     </>
   );

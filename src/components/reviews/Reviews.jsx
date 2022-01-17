@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchReviews, normalizeReviews } from '../../services/apiServices';
+import Loader from '../loader/Loader';
+import { ReviewsStyled } from './Reviews.styled';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -19,7 +21,8 @@ const Reviews = () => {
 
         setReviews(normalizedReviews);
       } catch (error) {
-        setError(error);
+        setError('Ooops. Something went wrong...');
+        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -28,23 +31,26 @@ const Reviews = () => {
   }, [movieId]);
 
   return (
-    <>
-      {loading && <div>LOADING...</div>}
-      {error && <div>{error.message}</div>}
-      {!reviews.length ? (
-        <p>No reviews</p>
+    <ReviewsStyled>
+      {loading && <Loader />}
+      {error && <div>{error}</div>}
+      {!reviews.length && !loading ? (
+        <p className="paragraph">No reviews</p>
       ) : (
         <ul>
           {reviews.map(review => (
-            <li key={review.id}>
-              <p>{review.author}</p>
-              <p>{review.content}</p>
+            <li className="review" key={review.id}>
+              <p className="paragraph">
+                <span className="bold-span">Reviewer:{'\u00A0'}</span>
+                <span>{review.author}</span>
+              </p>
+              <p className="paragraph">{review.content}</p>
               <hr />
             </li>
           ))}
         </ul>
       )}
-    </>
+    </ReviewsStyled>
   );
 };
 

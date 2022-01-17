@@ -11,8 +11,8 @@ import { fetchDetails, normalizeMovieDetails } from '../services/apiServices';
 import Section from '../components/section/Section';
 import MovieDetails from '../components/moviesDetails/MovieDetails';
 import { movieAddInfoRoutes, navRoutes } from '../routes/routes';
-// import Cast from '../components/cast/Cast';
-// import Reviews from '../components/reviews/Reviews';
+import Loader from '../components/loader/Loader';
+import Button from '../components/button/Button';
 
 const Cast = lazy(() =>
   import('../components/cast/Cast' /* webpackChunkName: "cast-component" */),
@@ -27,7 +27,7 @@ const Reviews = lazy(() =>
 const { cast, reviews } = movieAddInfoRoutes;
 
 const MovieDetailsPage = () => {
-  const [movieDetails, setMovieDetails] = useState({});
+  const [movieDetails, setMovieDetails] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -44,10 +44,11 @@ const MovieDetailsPage = () => {
         const normalizeData = normalizeMovieDetails(data);
         setMovieDetails(normalizeData);
       } catch (error) {
-        setError(error);
+        setError('Ooops. Something went wrong... Try use Searh form');
+        console.log(error);
         setTimeout(() => {
           history.replace(navRoutes.movies.path);
-        }, 0);
+        }, 2000);
       } finally {
         setLoading(false);
       }
@@ -61,15 +62,16 @@ const MovieDetailsPage = () => {
 
   return (
     <>
-      <button type="button" onClick={handleClick}>
-        Назад к фильмам
-      </button>
       <Section titleLevel="h3" title="Описание фильма">
-        {loading && <div>LOADING...</div>}
-        {error && <div>{error.message}</div>}
-        <MovieDetails movieDetails={movieDetails} />
+        <Button onClick={handleClick} pl={10} pt={10} pr={10} pb={10} mb={20}>
+          Назад к фильмам
+        </Button>
 
-        <Suspense fallback={<div>LOADING...</div>}>
+        {loading && <Loader />}
+        {error && <div>{error}</div>}
+        {movieDetails && <MovieDetails movieDetails={movieDetails} />}
+
+        <Suspense fallback={<Loader chunk={true} />}>
           <Switch>
             <Route path={`${match.path}${cast.path}`}>
               <Cast />

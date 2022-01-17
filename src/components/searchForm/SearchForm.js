@@ -5,6 +5,8 @@ import { BsSearch } from 'react-icons/bs';
 import { AiOutlineDelete } from 'react-icons/ai';
 
 import { normalizeQuery } from '../../services/apiServices';
+import { FormStyled } from './SearchForm.styled';
+import Button from '../button/Button';
 
 const SearchForm = ({ query, getQuery }) => {
   const [searchQuery, setSearchQuery] = useState(query);
@@ -42,23 +44,32 @@ const SearchForm = ({ query, getQuery }) => {
   };
 
   return (
-    <form className="SearchForm" onSubmit={handleSubmit}>
-      <button type="button" className="SearchForm-button">
-        <AiOutlineDelete color="#55555" onClick={handleInputClear} />
-      </button>
+    <FormStyled onSubmit={handleSubmit}>
+      <Button
+        onClick={handleInputClear}
+        icon={<AiOutlineDelete color="#666666" size={20} />}
+        pl={10}
+        pt={10}
+        pr={10}
+        pb={10}
+      />
       <input
         onChange={handleChange}
-        className="SearchForm-input"
+        className="input"
         type="text"
         value={searchQuery}
         autoComplete="off"
         placeholder="Search movies"
         ref={inputRef}
       />
-      <button type="submit" className="SearchForm-button">
-        <BsSearch color="#55555" />
-      </button>
-    </form>
+      <Button
+        icon={<BsSearch color="#666666" size={20} />}
+        pl={10}
+        pt={10}
+        pr={10}
+        pb={10}
+      />
+    </FormStyled>
   );
 };
 

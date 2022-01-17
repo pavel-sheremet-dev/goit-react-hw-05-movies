@@ -1,10 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-// import HomePage from '../../views/HomePage';
-// import MoviesPage from '../../views/MoviesPage';
-// import MovieDetailsPage from '../../views/MovieDetailsPage';
-// import NotFoundPage from '../../views/NotFoundPage';
 import { navRoutes } from '../../routes/routes';
+import Loader from '../loader/Loader';
 
 const { home, movies } = navRoutes;
 
@@ -29,7 +26,7 @@ const NotFoundPage = lazy(() =>
 const Main = () => {
   return (
     <main>
-      <Suspense fallback={<div>LOADING</div>}>
+      <Suspense fallback={<Loader chunk={true} />}>
         <Switch>
           <Route path="/" exact render={() => <Redirect to={home.path} />} />
           <Route path={home.path}>

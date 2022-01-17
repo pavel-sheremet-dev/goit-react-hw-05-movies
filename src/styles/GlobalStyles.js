@@ -7,6 +7,12 @@ export const GlobalStyle = createGlobalStyle`
   outline: 1px solid green;
 } */
 
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: black;
+  font-size: 16px;
+}
+
 h1,
 h2,
 h3,
@@ -25,6 +31,11 @@ li {
 ul {
   padding-left: 0;
   list-style: none;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
 }
 
 img,
@@ -46,4 +57,12 @@ button {
 .list {
   list-style: none;
 }
+
+.paragraph {
+    margin-bottom: 10px;
+  }
+
+.bold-span {
+    font-weight: 700;
+  }
 `;

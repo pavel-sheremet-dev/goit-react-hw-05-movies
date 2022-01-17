@@ -7,6 +7,7 @@ export const StyledSection = styled.section`
 
 export const Title = styled.h1`
   font-size: 20px;
+  margin-bottom: 20px;
 
   ${({ isHidden }) =>
     isHidden &&
@@ -21,5 +22,5 @@ export const Title = styled.h1`
     clip-path: inset(100%);
     clip: rect(0 0 0 0);
     overflow: hidden;
-  `}
+  `};
 `;
