@@ -1,21 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+
 import Movies from '../components/movies/Movies';
 
 import SearchForm from '../components/searchForm/SearchForm';
 import Section from '../components/section/Section';
+import { navRoutes } from '../routes/routes';
 import { fetchByQuery } from '../services/apiServices';
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState('');
+  const location = useLocation();
+  const [query, setQuery] = useState(() => location.search.substring(1));
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const history = useHistory();
+
   const getQuery = query => {
-    setQuery(query);
+    history.push({
+      ...location,
+      search: query,
+    });
   };
 
   useEffect(() => {
+    console.log(`location`, location);
+    setQuery(location.search.substring(1));
+  }, [location]);
+
+  useEffect(() => {
+    console.log('useEff');
     if (!query) return;
     const fetchMovies = async () => {
       try {
@@ -37,7 +52,9 @@ const MoviesPage = () => {
         <SearchForm getQuery={getQuery} query={query} />
         {loading && <div>LOADING...</div>}
         {error && <div>{error.message}</div>}
-        {query && <Movies moviesData={movies} />}
+        {!!movies.length && query && (
+          <Movies moviesData={movies} link={navRoutes.movies.path} />
+        )}
       </Section>
     </>
   );

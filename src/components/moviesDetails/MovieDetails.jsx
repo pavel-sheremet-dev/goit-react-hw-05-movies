@@ -1,11 +1,12 @@
-import { NavLink, useRouteMatch } from 'react-router-dom';
-import { movieAddInfoRoutes } from '../../routes/routes';
+import { NavLink, useRouteMatch, useLocation } from 'react-router-dom';
+import { movieAddInfoRoutes, navRoutes } from '../../routes/routes';
 
 const MovieDetails = ({ movieDetails }) => {
   const { title, release_date, overview, vote_average, poster_path } =
     movieDetails;
 
   const match = useRouteMatch();
+  const location = useLocation();
 
   return (
     <>
@@ -16,11 +17,23 @@ const MovieDetails = ({ movieDetails }) => {
       <img src={poster_path} alt={`poster of ${title}`} width="200" />
       <hr />
       <ul>
-        {movieAddInfoRoutes.map(({ title, path, id }) => (
-          <li key={id}>
-            <NavLink to={`${match.url}${path}`}>{title}</NavLink>
-          </li>
-        ))}
+        {Object.keys(movieAddInfoRoutes).map(key => {
+          const { title, path, id } = movieAddInfoRoutes[key];
+          return (
+            <li key={id}>
+              <NavLink
+                to={{
+                  pathname: `${match.url}${path}`,
+                  state: {
+                    from: location.state?.from ?? navRoutes.movies.path,
+                  },
+                }}
+              >
+                {title}
+              </NavLink>
+            </li>
+          );
+        })}
       </ul>
       <hr />
     </>

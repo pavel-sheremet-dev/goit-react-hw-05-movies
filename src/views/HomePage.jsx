@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { navRoutes } from '../routes/routes';
 
 import Movies from '../components/movies/Movies';
 import Section from '../components/section/Section';
@@ -29,7 +30,11 @@ const HomePage = () => {
       <Section titleLevel="h1" title="Популярные фильмы">
         {loading && <div>LOADING...</div>}
         {error && <div>{error.message}</div>}
-        <Movies moviesData={movies} />
+        {!!movies.length ? (
+          <Movies moviesData={movies} link={navRoutes.movies.path} />
+        ) : (
+          <div>Movies not found</div>
+        )}
       </Section>
     </>
   );

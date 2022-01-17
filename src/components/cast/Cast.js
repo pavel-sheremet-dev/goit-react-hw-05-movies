@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchCredits } from '../../services/apiServices';
-import notFoundImageurl from '../../images/broken.png';
+import { fetchCredits, normalizeCast } from '../../services/apiServices';
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
@@ -16,14 +15,7 @@ const Cast = () => {
         setLoading(true);
         const data = await fetchCredits(movieId);
 
-        const normalizedData = [
-          ...data.cast.map(castItem => ({
-            ...castItem,
-            profile_path: castItem.profile_path
-              ? `https://image.tmdb.org/t/p/w500${castItem.profile_path}`
-              : notFoundImageurl,
-          })),
-        ];
+        const normalizedData = normalizeCast(data.cast);
 
         setCast(normalizedData);
       } catch (error) {
@@ -37,12 +29,15 @@ const Cast = () => {
 
   return (
     <div>
-      {loading && <div>LOADING...</div>}
+      {loading && <div>ПАПАМ...</div>}
       {error && <div>{error.message}</div>}
       <ul>
         {cast.map(castItem => (
           <li key={castItem.id}>
             <img src={castItem.profile_path} alt="" width="200" />
+            <p>Name: {castItem.name}</p>
+            <p>Character: {castItem.character}</p>
+            <hr />
           </li>
         ))}
       </ul>

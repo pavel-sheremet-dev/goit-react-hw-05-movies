@@ -7,7 +7,7 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { normalizeQuery } from '../../services/apiServices';
 
 const SearchForm = ({ query, getQuery }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(query);
 
   const inputRef = useRef(null);
 
@@ -42,25 +42,23 @@ const SearchForm = ({ query, getQuery }) => {
   };
 
   return (
-    <header className="Searchbar">
-      <form className="SearchForm" onSubmit={handleSubmit}>
-        <button type="button" className="SearchForm-button">
-          <AiOutlineDelete color="#55555" onClick={handleInputClear} />
-        </button>
-        <input
-          onChange={handleChange}
-          className="SearchForm-input"
-          type="text"
-          value={searchQuery}
-          autoComplete="off"
-          placeholder="Search movies"
-          ref={inputRef}
-        />
-        <button type="submit" className="SearchForm-button">
-          <BsSearch color="#55555" />
-        </button>
-      </form>
-    </header>
+    <form className="SearchForm" onSubmit={handleSubmit}>
+      <button type="button" className="SearchForm-button">
+        <AiOutlineDelete color="#55555" onClick={handleInputClear} />
+      </button>
+      <input
+        onChange={handleChange}
+        className="SearchForm-input"
+        type="text"
+        value={searchQuery}
+        autoComplete="off"
+        placeholder="Search movies"
+        ref={inputRef}
+      />
+      <button type="submit" className="SearchForm-button">
+        <BsSearch color="#55555" />
+      </button>
+    </form>
   );
 };
 
