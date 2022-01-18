@@ -63,6 +63,7 @@ const SearchForm = ({ query, getQuery }) => {
         ref={inputRef}
       />
       <Button
+        type="submit"
         icon={<BsSearch color="#666666" size={20} />}
         pl={10}
         pt={10}
