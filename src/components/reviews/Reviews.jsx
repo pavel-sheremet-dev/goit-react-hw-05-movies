@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchReviews, normalizeReviews } from '../../services/apiServices';
 import Loader from '../loader/Loader';
 import { ReviewsStyled } from './Reviews.styled';
+import { toast } from 'react-toastify';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -21,6 +22,7 @@ const Reviews = () => {
 
         setReviews(normalizedReviews);
       } catch (error) {
+        toast.error('Ooops. Something went wrong...');
         setError('Ooops. Something went wrong...');
         console.log(error);
       } finally {

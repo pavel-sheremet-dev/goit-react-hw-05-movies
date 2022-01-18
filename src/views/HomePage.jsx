@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { navRoutes } from '../routes/routes';
+import { toast } from 'react-toastify';
 
 import Movies from '../components/movies/Movies';
 import Section from '../components/section/Section';
@@ -19,6 +20,7 @@ const HomePage = () => {
         setMovies(data.results);
       } catch (error) {
         setError('Ooops. Something went wrong...');
+        toast.error('Ooops. Something went wrong...');
         console.log(error);
       } finally {
         setLoading(false);

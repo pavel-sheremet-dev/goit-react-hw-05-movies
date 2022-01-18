@@ -13,6 +13,7 @@ import MovieDetails from '../components/moviesDetails/MovieDetails';
 import { movieAddInfoRoutes, navRoutes } from '../routes/routes';
 import Loader from '../components/loader/Loader';
 import Button from '../components/button/Button';
+import { toast } from 'react-toastify';
 
 const Cast = lazy(() =>
   import('../components/cast/Cast' /* webpackChunkName: "cast-component" */),
@@ -45,6 +46,7 @@ const MovieDetailsPage = () => {
         setMovieDetails(normalizeData);
       } catch (error) {
         setError('Ooops. Something went wrong... Try use Searh form');
+        toast.error('Ooops. Something went wrong...Try use Search form');
         console.log(error);
         setTimeout(() => {
           history.replace(navRoutes.movies.path);

@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineDelete } from 'react-icons/ai';
@@ -20,13 +21,13 @@ const SearchForm = ({ query, getQuery }) => {
 
     if (!normalizedQuery) {
       // тостик добавить
-      console.log(`Empty query`);
+      toast.warning('Empty query');
       getQuery('');
       return;
     }
     if (normalizedQuery === query) {
       //  тостик добавить
-      console.log(`same query`);
+      toast.warning('same query');
       return;
     }
     getQuery(searchQuery);

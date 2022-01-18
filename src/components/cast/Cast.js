@@ -4,6 +4,7 @@ import { fetchCredits, normalizeCast } from '../../services/apiServices';
 import Box from '../box/Box';
 import Loader from '../loader/Loader';
 import { CastStyled } from './Cast.styled';
+import { toast } from 'react-toastify';
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
@@ -22,6 +23,7 @@ const Cast = () => {
 
         setCast(normalizedData);
       } catch (error) {
+        toast.error('Ooops. Something went wrong...');
         setError('Ooops. Something went wrong...');
         console.log(error);
       } finally {

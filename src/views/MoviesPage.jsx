@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import Loader from '../components/loader/Loader';
 import Movies from '../components/movies/Movies';
@@ -12,7 +13,7 @@ const MoviesPage = () => {
   const location = useLocation();
   const [query, setQuery] = useState(() => location.search.substring(1));
   const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const history = useHistory();
@@ -38,6 +39,7 @@ const MoviesPage = () => {
         setMovies(data.results);
       } catch (error) {
         setError('Ooops. Something went wrong...');
+        toast.error('Ooops. Something went wrong...');
         console.log(error);
       } finally {
         setLoading(false);
