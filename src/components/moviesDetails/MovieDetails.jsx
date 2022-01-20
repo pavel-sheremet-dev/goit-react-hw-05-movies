@@ -1,8 +1,28 @@
+import { lazy, Suspense } from 'react';
+
 import PropTypes from 'prop-types';
-import { NavLink, useRouteMatch, useLocation } from 'react-router-dom';
+import {
+  NavLink,
+  useRouteMatch,
+  useLocation,
+  Switch,
+  Route,
+  // Redirect,
+} from 'react-router-dom';
 import { movieAddInfoRoutes, navRoutes } from '../../routes/routes';
 import Box from '../box/Box';
+import Loader from '../loader/Loader';
 import { MovieCardStyled } from './MovieDetails.styled';
+
+const Cast = lazy(() =>
+  import('../cast/Cast' /* webpackChunkName: "cast-component" */),
+);
+
+const Reviews = lazy(() =>
+  import('../reviews/Reviews' /* webpackChunkName: "reviews-component" */),
+);
+
+const { cast, reviews } = movieAddInfoRoutes;
 
 const MovieDetails = ({ movieDetails }) => {
   const { title, release_date, overview, vote_average, poster_path } =
@@ -54,6 +74,21 @@ const MovieDetails = ({ movieDetails }) => {
         })}
       </ul>
       <hr />
+
+      <Suspense fallback={<Loader chunk={true} />}>
+        <Switch>
+          <Route path={`${match.path}${cast.path}`}>
+            <Cast />
+          </Route>
+          <Route path={`${match.path}${reviews.path}`}>
+            <Reviews />
+          </Route>
+          {/* <Route
+            path={`${match.path}`}
+            render={() => <Redirect to={match.url} />}
+          /> */}
+        </Switch>
+      </Suspense>
     </MovieCardStyled>
   );
 };

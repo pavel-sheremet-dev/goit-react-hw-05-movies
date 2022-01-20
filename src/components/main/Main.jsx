@@ -29,7 +29,7 @@ const Main = () => {
       <Suspense fallback={<Loader chunk={true} />}>
         <Switch>
           <Route path="/" exact render={() => <Redirect to={home.path} />} />
-          <Route path={home.path}>
+          <Route path={home.path} exact>
             <HomePage />
           </Route>
           <Route path={movies.path} exact>
@@ -38,6 +38,7 @@ const Main = () => {
           <Route path={`${movies.path}/:movieId`}>
             <MovieDetailsPage />
           </Route>
+
           <Route>
             <NotFoundPage />
           </Route>

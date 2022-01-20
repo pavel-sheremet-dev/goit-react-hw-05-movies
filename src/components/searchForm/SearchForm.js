@@ -33,7 +33,6 @@ const SearchForm = ({ query, getQuery }) => {
     getQuery(searchQuery);
     inputRef.current.blur();
   };
-
   const handleInputClear = e => {
     setSearchQuery('');
     getQuery('');

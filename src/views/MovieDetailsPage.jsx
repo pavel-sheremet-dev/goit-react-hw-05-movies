@@ -1,31 +1,12 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
-import {
-  useParams,
-  Switch,
-  Route,
-  useRouteMatch,
-  useLocation,
-  useHistory,
-} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { fetchDetails, normalizeMovieDetails } from '../services/apiServices';
 import Section from '../components/section/Section';
 import MovieDetails from '../components/moviesDetails/MovieDetails';
-import { movieAddInfoRoutes, navRoutes } from '../routes/routes';
+import { navRoutes } from '../routes/routes';
 import Loader from '../components/loader/Loader';
 import Button from '../components/button/Button';
 import { toast } from 'react-toastify';
-
-const Cast = lazy(() =>
-  import('../components/cast/Cast' /* webpackChunkName: "cast-component" */),
-);
-
-const Reviews = lazy(() =>
-  import(
-    '../components/reviews/Reviews' /* webpackChunkName: "reviews-component" */
-  ),
-);
-
-const { cast, reviews } = movieAddInfoRoutes;
 
 const MovieDetailsPage = () => {
   const [movieDetails, setMovieDetails] = useState(null);
@@ -33,7 +14,6 @@ const MovieDetailsPage = () => {
   const [loading, setLoading] = useState(false);
 
   const { movieId } = useParams();
-  const match = useRouteMatch();
   const location = useLocation();
   const history = useHistory();
 
@@ -44,15 +24,14 @@ const MovieDetailsPage = () => {
         const data = await fetchDetails(movieId);
         const normalizeData = normalizeMovieDetails(data);
         setMovieDetails(normalizeData);
+        setLoading(false);
       } catch (error) {
         setError('Ooops. Something went wrong... Try use Searh form');
-        toast.error('Ooops. Something went wrong...Try use Search form');
+        toast.error(`The movie was not found. Use Searh`);
         console.log(error);
-        setTimeout(() => {
-          history.replace(navRoutes.movies.path);
-        }, 2000);
+        history.replace(navRoutes.movies.path);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
     fetchMovieDedails();
@@ -72,17 +51,6 @@ const MovieDetailsPage = () => {
         {loading && <Loader />}
         {error && <div>{error}</div>}
         {movieDetails && <MovieDetails movieDetails={movieDetails} />}
-
-        <Suspense fallback={<Loader chunk={true} />}>
-          <Switch>
-            <Route path={`${match.path}${cast.path}`}>
-              <Cast />
-            </Route>
-            <Route path={`${match.path}${reviews.path}`}>
-              <Reviews />
-            </Route>
-          </Switch>
-        </Suspense>
       </Section>
     </>
   );
