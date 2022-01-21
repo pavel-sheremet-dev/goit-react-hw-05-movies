@@ -7,7 +7,7 @@ import {
   useLocation,
   Switch,
   Route,
-  // Redirect,
+  Redirect,
 } from 'react-router-dom';
 import { movieAddInfoRoutes, navRoutes } from '../../routes/routes';
 import Box from '../box/Box';
@@ -83,10 +83,20 @@ const MovieDetails = ({ movieDetails }) => {
           <Route path={`${match.path}${reviews.path}`}>
             <Reviews />
           </Route>
-          {/* <Route
+          <Route
             path={`${match.path}`}
-            render={() => <Redirect to={match.url} />}
-          /> */}
+            render={() => (
+              <Redirect
+                // to={match.url}
+                to={{
+                  pathname: `${match.url}`,
+                  state: {
+                    from: location.state?.from,
+                  },
+                }}
+              />
+            )}
+          />
         </Switch>
       </Suspense>
     </MovieCardStyled>

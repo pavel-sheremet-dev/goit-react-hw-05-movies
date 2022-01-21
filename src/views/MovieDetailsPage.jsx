@@ -38,7 +38,7 @@ const MovieDetailsPage = () => {
   }, [history, movieId]);
 
   const handleClick = () => {
-    history.push(location.state?.from ?? navRoutes.movies.path);
+    history.push(location.state?.from ?? navRoutes.home.path);
   };
 
   return (
