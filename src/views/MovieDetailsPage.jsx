@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { fetchDetails, normalizeMovieDetails } from '../services/apiServices';
 import Section from '../components/section/Section';
 import MovieDetails from '../components/moviesDetails/MovieDetails';
@@ -15,7 +15,7 @@ const MovieDetailsPage = () => {
 
   const { movieId } = useParams();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovieDedails = async () => {
@@ -29,17 +29,21 @@ const MovieDetailsPage = () => {
         setError('Ooops. Something went wrong... Try use Searh form');
         toast.error(`The movie was not found. Use Searh`);
         console.log(error);
-        history.replace(navRoutes.movies.path);
-      } finally {
-        // setLoading(false);
       }
     };
     fetchMovieDedails();
-  }, [history, movieId]);
+  }, [movieId]);
+
+  useEffect(() => {
+    if (!error) return;
+    navigate(navRoutes.movies.absolutePath, { replace: true });
+  }, [error, navigate]);
 
   const handleClick = () => {
-    history.push(location.state?.from ?? navRoutes.home.path);
+    navigate(location.state?.from ?? navRoutes.home.path);
   };
+
+  const resolve = movieDetails && !loading;
 
   return (
     <>
@@ -50,7 +54,7 @@ const MovieDetailsPage = () => {
 
         {loading && <Loader />}
         {error && <div>{error}</div>}
-        {movieDetails && <MovieDetails movieDetails={movieDetails} />}
+        {resolve && <MovieDetails movieDetails={movieDetails} />}
       </Section>
     </>
   );

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { MoviesList } from './Movies.styled';
 
-const Movies = ({ moviesData, link }) => {
+const Movies = ({ moviesData, absolutePath }) => {
   const location = useLocation();
 
   return (
@@ -11,12 +11,8 @@ const Movies = ({ moviesData, link }) => {
         <li className="movies-item" key={movie.id}>
           <Link
             className="movies-link link"
-            to={{
-              pathname: `${link}/${movie.id}`,
-              state: {
-                from: location,
-              },
-            }}
+            to={`${absolutePath}/${movie.id}`}
+            state={{ from: location }}
           >
             {movie.title}
           </Link>
@@ -27,7 +23,7 @@ const Movies = ({ moviesData, link }) => {
 };
 
 Movies.propTypes = {
-  link: PropTypes.string.isRequired,
+  absolutePath: PropTypes.string.isRequired,
   moviesData: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,

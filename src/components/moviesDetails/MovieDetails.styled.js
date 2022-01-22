@@ -42,9 +42,9 @@ export const MovieCardStyled = styled.div`
     &:focus {
       color: green;
     }
-  }
 
-  & .nav-link-active {
-    color: green;
+    &.active {
+      color: green;
+    }
   }
 `;

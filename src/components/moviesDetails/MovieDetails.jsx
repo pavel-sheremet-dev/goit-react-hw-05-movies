@@ -1,34 +1,13 @@
-import { lazy, Suspense } from 'react';
-
 import PropTypes from 'prop-types';
-import {
-  NavLink,
-  useRouteMatch,
-  useLocation,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { NavLink, useLocation, Outlet } from 'react-router-dom';
 import { movieAddInfoRoutes, navRoutes } from '../../routes/routes';
 import Box from '../box/Box';
-import Loader from '../loader/Loader';
 import { MovieCardStyled } from './MovieDetails.styled';
-
-const Cast = lazy(() =>
-  import('../cast/Cast' /* webpackChunkName: "cast-component" */),
-);
-
-const Reviews = lazy(() =>
-  import('../reviews/Reviews' /* webpackChunkName: "reviews-component" */),
-);
-
-const { cast, reviews } = movieAddInfoRoutes;
 
 const MovieDetails = ({ movieDetails }) => {
   const { title, release_date, overview, vote_average, poster_path } =
     movieDetails;
 
-  const match = useRouteMatch();
   const location = useLocation();
 
   return (
@@ -59,13 +38,10 @@ const MovieDetails = ({ movieDetails }) => {
             <li key={id} className="nav-item">
               <NavLink
                 className="nav-link link"
-                to={{
-                  pathname: `${match.url}${path}`,
-                  state: {
-                    from: location.state?.from ?? navRoutes.movies.path,
-                  },
+                to={path}
+                state={{
+                  from: location.state?.from ?? navRoutes.movies.path,
                 }}
-                activeClassName="nav-link-active"
               >
                 {title}
               </NavLink>
@@ -75,30 +51,7 @@ const MovieDetails = ({ movieDetails }) => {
       </ul>
       <hr />
 
-      <Suspense fallback={<Loader chunk={true} />}>
-        <Switch>
-          <Route path={`${match.path}${cast.path}`}>
-            <Cast />
-          </Route>
-          <Route path={`${match.path}${reviews.path}`}>
-            <Reviews />
-          </Route>
-          <Route
-            path={`${match.path}`}
-            render={() => (
-              <Redirect
-                // to={match.url}
-                to={{
-                  pathname: `${match.url}`,
-                  state: {
-                    from: location.state?.from,
-                  },
-                }}
-              />
-            )}
-          />
-        </Switch>
-      </Suspense>
+      <Outlet />
     </MovieCardStyled>
   );
 };

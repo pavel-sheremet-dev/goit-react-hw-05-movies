@@ -12,13 +12,14 @@ const Navigation = ({ navRoutes }) => {
             <li key={id} className="nav-item">
               <NavLink
                 className="nav-link"
-                activeClassName="nav-link-active"
-                to={{
-                  pathname: path,
-                  state: {
-                    moviesPath: navRoutes.movies.path,
-                  },
-                }}
+                // activeClassName="nav-link-active"
+                to={path}
+                // to={{
+                //   pathname: path,
+                //   state: {
+                //     moviesPath: navRoutes.movies.path,
+                //   },
+                // }}
               >
                 {title}
               </NavLink>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import Loader from '../components/loader/Loader';
@@ -16,10 +16,10 @@ const MoviesPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const getQuery = query => {
-    history.push({
+    navigate({
       ...location,
       search: query,
     });
@@ -56,7 +56,12 @@ const MoviesPage = () => {
       <Section titleLevel="h2" title="Поиск фильмов">
         <SearchForm getQuery={getQuery} query={query} />
         {loading && <Loader />}
-        {resolve && <Movies moviesData={movies} link={navRoutes.movies.path} />}
+        {resolve && (
+          <Movies
+            moviesData={movies}
+            absolutePath={navRoutes.movies.absolutePath}
+          />
+        )}
         {isNotFound && <div>Movies not found</div>}
         {error && <div>{error}</div>}
       </Section>

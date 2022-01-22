@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '../components/button/Button';
 import RedirectTimer from '../components/redirectTimer/RedirectTimer';
 import Section from '../components/section/Section';
@@ -8,16 +8,16 @@ import { navRoutes } from '../routes/routes';
 const NotFoundPage = () => {
   const [timeToRedirect, setTimeToRedirect] = useState(false);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    history.replace(navRoutes.home.path);
+    navigate(navRoutes.home.path, { replace: true });
   };
 
   useEffect(() => {
     if (!timeToRedirect) return;
-    history.replace(navRoutes.home.path);
-  }, [history, timeToRedirect]);
+    navigate(navRoutes.home.path, { replace: true });
+  }, [navigate, timeToRedirect]);
 
   return (
     <Section title="PAGE NOT FOUND (404)" titleLevel="h2">

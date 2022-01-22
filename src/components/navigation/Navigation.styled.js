@@ -21,8 +21,9 @@ export const NavigationStyled = styled.nav`
     &:focus {
       color: green;
     }
-  }
-  & .nav-link-active {
-    color: green;
+
+    &.active {
+      color: green;
+    }
   }
 `;

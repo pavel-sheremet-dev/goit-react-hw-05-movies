@@ -37,7 +37,12 @@ const HomePage = () => {
       <Section titleLevel="h1" title="Популярные фильмы">
         {loading && <Loader />}
         {error && <div>{error}</div>}
-        {resolve && <Movies moviesData={movies} link={navRoutes.movies.path} />}
+        {resolve && (
+          <Movies
+            moviesData={movies}
+            absolutePath={navRoutes.movies.absolutePath}
+          />
+        )}
         {isNotFound && <div>Movies not found</div>}
       </Section>
     </>
